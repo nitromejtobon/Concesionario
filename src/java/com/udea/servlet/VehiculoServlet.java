@@ -62,7 +62,13 @@ public class VehiculoServlet extends HttpServlet {
                url = "AccountServlet?action=list";
            }
            else if("update".equals(action)){
-               
+               Vehiculo v = new Vehiculo();
+               v.setMatricula(request.getParameter("matricula"));
+               v.setTIpoCarro(request.getParameter("tipo"));
+               v.setCilindraje(request.getParameter("cilindraje"));
+               v.setColor(request.getParameter("color"));
+               v.setMarca(request.getParameter("marca"));
+               vehiculoFacade.updateVehiculo(v);
            }
            response.sendRedirect(url);
         } finally{
