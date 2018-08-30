@@ -36,6 +36,20 @@ public class ClienteServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+           String action = request.getParameter("action");
+           String url = "vehiculos.jgp";
+           if("list".equals(action)){
+               
+           }
+           else if ("insert".equals(action)){
+               
+           }
+           else if("delete".equals(action)){
+               
+           }
+           else if("update".equals(action)){
+               
+           }
            
         }
     }

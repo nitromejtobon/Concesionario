@@ -54,7 +54,6 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
     @Override
     public void createCliente(Cliente cliente) {
         em.persist(cliente);
-        
     }
     
     

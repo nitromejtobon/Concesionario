@@ -5,8 +5,13 @@
  */
 package com.udea.servlet;
 
+import com.udea.ejb.VehiculoFacadeLocal;
+import com.udea.entity.Vehiculo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class VehiculoServlet extends HttpServlet {
 
+    @EJB
+    private VehiculoFacadeLocal vehiculoFacade;
+
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,8 +41,34 @@ public class VehiculoServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           
+           String action = request.getParameter("action");
+           String url = "vehiculos.jsp";
+           if("list".equals(action)){
+               List<Vehiculo> findAll = vehiculoFacade.getVehiculos();
+               request.getSession().setAttribute("vehiculos", findAll);
+           }
+           else if ("insert".equals(action)){
+               Vehiculo v = new Vehiculo();
+               v.setMatricula(request.getParameter("matricula"));
+               v.setTIpoCarro(request.getParameter("tipo"));
+               v.setCilindraje(request.getParameter("cilindraje"));
+               v.setColor(request.getParameter("color"));
+               v.setMarca(request.getParameter("marca"));
+           }
+           else if("delete".equals(action)){
+               String matricula = request.getParameter(request.getParameter("matricula"));
+               Vehiculo v = vehiculoFacade.find(matricula);
+               vehiculoFacade.remove(v);
+               url = "AccountServlet?action=list";
+           }
+           else if("update".equals(action)){
+               
+           }
+           response.sendRedirect(url);
+        } finally{
+            out.close();
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
